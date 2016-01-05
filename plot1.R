@@ -1,4 +1,4 @@
-Proj1 <- function() {
+plot1 <- function() {
   
   library(dplyr)  
   
@@ -25,30 +25,32 @@ Proj1 <- function() {
           setTimes = FALSE)
   }
   
-  hhPwr <- fread("household_power_consumption.txt",header = TRUE,na.strings = c("?"))
+  # Import text file into data frame
+  hhPwr <- tbl_df(fread("household_power_consumption.txt",header = TRUE,na.strings = c("?")))
   
-  #head(hhPwr)
+  # head(hhPwr)
+
+  # Take only data from 2/1 and 2/2 in 2007
+  Pwr <- subset(hhPwr, hhPwr$Date %in% c('1/2/2007','2/2/2007')) 
   
-  Pwr <- tbl_df(hhPwr)
-  
+  # Remove original data set with extra dates
   rm("hhPwr")
   
-  
+  # Change Date field format from String to Date
   Pwr$Date <- as.Date(Pwr$Date, format="%d/%m/%Y")
   
  GAP <- 
    Pwr %>%
-   summarize(n=n()) %>%
-   select(Date, Global_active_power) %>%
-   #subset(Pwr$Date %in% c('1/2/2007','2/2/2007')) 
-   filter(Date == '1/2/2007' | Date == '2/2/2007')
-
+   group_by(Global_active_power) %>%
+   summarize(frequency=n()) %>%
+   arrange(frequency)
+ 
 GAP
-# 
-#   # Bar Plot 
-#     frequency <- table(mtcars$gear)
-#     barplot(counts, main="Car Distribution", 
-#         xlab="Number of Gears")
+
+  # Bar Plot 
+    freq <- table(GAP$frequency)
+    barplot(freq, main="Global Active Power", 
+        xlab="Global Active Power (kilowatts)")
   
   
   }
