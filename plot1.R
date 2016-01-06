@@ -4,6 +4,8 @@ plot1 <- function() {
   
   require(data.table)
   
+  library(datasets)
+  
  # library(lubridate)
   
   
@@ -41,17 +43,19 @@ plot1 <- function() {
   
  GAP <- 
    Pwr %>%
-   group_by(Global_active_power) %>%
-   summarize(frequency=n()) %>%
-   arrange(frequency)
- 
-GAP
+   #Rounding the results up to the nearest 0.25
+   mutate(GW = floor(Global_active_power/.50)*.50) 
+
+#GAP
 
   # Bar Plot 
-    freq <- table(GAP$frequency)
-    barplot(freq, main="Global Active Power", 
-        xlab="Global Active Power (kilowatts)")
-  
+    counts <- table(GAP$GW)
+    barplot(counts, main="Global Active Power", 
+        xlab="Global Active Power (kilowatts)", ylab="Frequency", beside=TRUE, col="red")
+    
+    dev.copy(png,"plot1.png",width=8,height=6,units="in",res=100)
+    dev.off()
+
   
   }
 
