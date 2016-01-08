@@ -1,6 +1,5 @@
 plot4 <- function() {
-  
-  
+  #Plot 4 graphs
   
   
   library(dplyr)  
@@ -12,7 +11,7 @@ plot4 <- function() {
   # library(lubridate)
   
   
-  setwd("C://R//ExploratoryAnalytics//Proj1")
+  #setwd("C://R//ExploratoryAnalytics//Proj1")
   
   
   if (!file.exists("exdata%2Fdata%2Fhousehold_power_consumption.zip")) {

@@ -13,7 +13,7 @@ plot1 <- function() {
  # library(lubridate)
   
   
-  setwd("C://R//ExploratoryAnalytics//Proj1")
+ # setwd("C://R//ExploratoryAnalytics//Proj1")
   
 
   if (!file.exists("exdata%2Fdata%2Fhousehold_power_consumption.zip")) {
@@ -45,7 +45,7 @@ plot1 <- function() {
   # Change Date field format from String to Date
   Pwr$Date <- as.Date(Pwr$Date, format="%d/%m/%Y")
   
- GAP <- 
+ GAPBar <- 
    Pwr %>%
    #Rounding the results up to the nearest 0.25
    mutate(GW = floor(Global_active_power/.50)*.50) 
@@ -53,14 +53,13 @@ plot1 <- function() {
 #GAP
 
   # Bar Plot 
-    counts <- table(GAP$GW)
+    Barcounts <- table(GAPBar$GW)
     
-    png("plot1.png")
+    png("plot1.png", width=480,height=480)
     
-    barplot(counts, main="Global Active Power", 
+    barplot(Barcounts, main="Global Active Power", 
         xlab="Global Active Power (kilowatts)", ylab="Frequency", beside=TRUE, col="red")
     
-    # dev.copy(png,"plot1.png",width=480,height=480,units="in",res=100)
     dev.off()
 
   

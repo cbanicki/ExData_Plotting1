@@ -13,7 +13,7 @@ plot2 <- function() {
  # library(lubridate)
   
   
-  setwd("C://R//ExploratoryAnalytics//Proj1")
+  #setwd("C://R//ExploratoryAnalytics//Proj1")
   
 
   if (!file.exists("exdata%2Fdata%2Fhousehold_power_consumption.zip")) {
