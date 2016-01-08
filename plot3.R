@@ -1,4 +1,8 @@
-plot1 <- function() {
+plot3 <- function() {
+  #Plot Energy sub metering (1,2, and 3) in a line graph
+  #with values on the y-axis (in increments of 10 starting at zero)
+  #and the weekday names on the x-axis
+  #Include a legend for each sub metering variable
   
   library(dplyr)  
   
@@ -41,44 +45,51 @@ plot1 <- function() {
   # Change Date field format from String to Date
   Pwr$Date <- as.Date(Pwr$Date, format="%d/%m/%Y")
   
- GAP <- 
-   Pwr %>%
-   #Rounding the results up to the nearest 0.25
-   #mutate(GW = floor(Global_active_power/.50)*.50) %>%
-   mutate(Day = weekdays(Pwr$Date)) 
+  GAP <- 
+    Pwr %>%
+    #mutate(Day = weekdays(Pwr$Date)) %>%
+    mutate(DateTime = as.POSIXct(paste(Date, Time), format="%Y-%m-%d %H:%M:%S")) %>%
+    #mutate(Day = format(seq.Date(as.Date(Date), by = 'day', len = 1), "%a")) %>%
+    select(Date, DateTime, Global_active_power) %>%
+    group_by(Date)
+  
    
  
-  WeekDays <- unique(GAP$Day)
-  
+#   WeekDays <- unique(GAP$Day)
+#   
 
 #GAP
 
   
   Pcolors <- c(rgb(r=0.0,g=0.0,b=0.9), "blue", "red", "gray")
-  # Bar Plot 
-     counts <- c(Pwr$Sub_metering_1)
+     
+     day <- c(GAP$DateTime)
+     
     
     gapRange <- range(0,counts)
     
-    plot(Pwr$Sub_metering_1, type="l", col="gray", ylim=gapRange,
+    plot(day, Pwr$Sub_metering_1, type="l", ylab= "Energy sub metering", col="gray", ylim=gapRange,
          axes=FALSE, ann=TRUE)
     
-    lines(Pwr$Sub_metering_2, type="l", col="red")
+    lines(day,Pwr$Sub_metering_2, type="l", col="red")
     
-    lines(Pwr$Sub_metering_3, type="l", col="blue")
+    lines(day, Pwr$Sub_metering_3, type="l", col="blue")
     
    # axis(1, lab="Energy sub metering")
     
+    axis.POSIXct(1, day, format="%a") #%m/%d") 
     
-    text(axTicks(1), 
-         labels=c(WeekDays),
-         xpd=T, cex=0.8)
+#     text(axTicks(1), 
+#          labels=c(WeekDays),
+#          xpd=T, cex=0.8)
     
     # Create box for graph border
     box()
     
     
-#     dev.copy(png,"plot2.png",width=8,height=6,units="in",res=100)
+    
+    
+#     dev.copy(png,"plot3.png",width=480,height=480,units="in",res=100)
 #     dev.off()
 # 
 #   
