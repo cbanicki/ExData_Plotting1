@@ -1,4 +1,8 @@
 plot1 <- function() {
+  #Plot the frequency (y-axis) of Global Active Power
+  #in a red bar chart
+  #with Global Active Power on the x-axis
+  #displayed in increments of 2, starting at 0
   
   library(dplyr)  
   
@@ -50,10 +54,13 @@ plot1 <- function() {
 
   # Bar Plot 
     counts <- table(GAP$GW)
+    
+    png("plot1.png")
+    
     barplot(counts, main="Global Active Power", 
         xlab="Global Active Power (kilowatts)", ylab="Frequency", beside=TRUE, col="red")
     
-    dev.copy(png,"plot1.png",width=8,height=6,units="in",res=100)
+    # dev.copy(png,"plot1.png",width=480,height=480,units="in",res=100)
     dev.off()
 
   

@@ -74,7 +74,8 @@ plot2 <- function() {
 #     weekday <- unique(weekday)
             
           
-         
+    png("plot2.png", width=480,height=480)     
+    
          plot(day,counts,ylim=c(0,MaxPower),axes=FALSE,ylab= "Global Active Power (kilowatts)", type='l', col='black',xaxt = "n") 
          #
          points(x=GAP$Date, y=counts, col='black', type='l', lwd=2)
@@ -88,11 +89,18 @@ plot2 <- function() {
     # Create box for graph border
     box()
 
+    dev.off()
     
-#     dev.copy(png,"plot2.png",width=480,height=480,units="in",res=100)
-#     dev.off()
-# 
-#   
+    
+  
+    
+    barplot(counts, main="Global Active Power", 
+            xlab="Global Active Power (kilowatts)", ylab="Frequency", beside=TRUE, col="red")
+    
+    dev.off()
+    
+
+  
   }
 
   

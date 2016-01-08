@@ -47,19 +47,12 @@ plot3 <- function() {
   
   GAP <- 
     Pwr %>%
-    #mutate(Day = weekdays(Pwr$Date)) %>%
     mutate(DateTime = as.POSIXct(paste(Date, Time), format="%Y-%m-%d %H:%M:%S")) %>%
-    #mutate(Day = format(seq.Date(as.Date(Date), by = 'day', len = 1), "%a")) %>%
-    select(Date, DateTime, Global_active_power) %>%
+    select(Date, DateTime, Sub_metering_1, Sub_metering_2, Sub_metering_3) %>%
     group_by(Date)
   
-   
- 
-#   WeekDays <- unique(GAP$Day)
-#   
-
-#GAP
-
+  # max(GAP$Sub_metering_1,GAP$Sub_metering_2,GAP$Sub_metering_3)
+  counts <- c(max(GAP$Sub_metering_1,GAP$Sub_metering_2,GAP$Sub_metering_3))
   
   Pcolors <- c(rgb(r=0.0,g=0.0,b=0.9), "blue", "red", "gray")
      
@@ -68,31 +61,41 @@ plot3 <- function() {
     
     gapRange <- range(0,counts)
     
+    png("plot3.png", width=480,height=480)     
+    
     plot(day, Pwr$Sub_metering_1, type="l", ylab= "Energy sub metering", col="gray", ylim=gapRange,
          axes=FALSE, ann=TRUE)
+    
+    #y-axis labels
+    axis(2, las=1, at=10*0:(counts - counts %% 10))
     
     lines(day,Pwr$Sub_metering_2, type="l", col="red")
     
     lines(day, Pwr$Sub_metering_3, type="l", col="blue")
     
-   # axis(1, lab="Energy sub metering")
-    
     axis.POSIXct(1, day, format="%a") #%m/%d") 
     
-#     text(axTicks(1), 
-#          labels=c(WeekDays),
-#          xpd=T, cex=0.8)
+ 
+    legend("topright", 
+           inset=.05, 
+           cex = 1, 
+           c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), 
+           horiz=FALSE, 
+           lty=c(1,1), 
+           lwd=c(2,2), 
+           col=c("gray","red","blue"), 
+           bg="white",
+           text.font=3)
+    
+    
     
     # Create box for graph border
     box()
     
     
+    dev.off()
     
     
-#     dev.copy(png,"plot3.png",width=480,height=480,units="in",res=100)
-#     dev.off()
-# 
-#   
   }
 
   
