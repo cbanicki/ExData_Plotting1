@@ -47,38 +47,27 @@ plot2 <- function() {
   
 
   
- GAP <- 
+ GAPVolt <- 
    Pwr %>%
-   #mutate(Day = weekdays(Pwr$Date)) %>%
    mutate(DateTime = as.POSIXct(paste(Date, Time), format="%Y-%m-%d %H:%M:%S")) %>%
-   #mutate(Day = format(seq.Date(as.Date(Date), by = 'day', len = 1), "%a")) %>%
    select(Date, DateTime, Global_active_power) %>%
    group_by(Date)
     
  
-    counts <- c(GAP$Global_active_power)
+    Voltcounts <- c(GAPVolt$Global_active_power)
     
-    day <- c(GAP$DateTime)
+    day <- c(GAPVolt$DateTime)
     
-    dateShort <- c(GAP$Date)
+    dateShort <- c(GAPVolt$Date)
     
-    MaxPower <- max(counts)
+    MaxPower <- max(Voltcounts)
  
     
-    # Get all the weekdays for the datetimes in the data
-#     weekday <- c(1:length(day))
-#     for (i in 1:length(day) ) {
-#       weekday[i] <- format(seq.Date(as.Date(day[i]), by = 'day', len = 1), "%a")
-#     }
-#     
-#     weekday <- unique(weekday)
-            
-          
     png("plot2.png", width=480,height=480)     
     
-         plot(day,counts,ylim=c(0,MaxPower),axes=FALSE,ylab= "Global Active Power (kilowatts)", type='l', col='black',xaxt = "n") 
+         plot(day,Voltcounts,ylim=c(0,MaxPower),axes=FALSE,ylab= "Global Active Power (kilowatts)", type='l', col='black',xaxt = "n") 
          #
-         points(x=GAP$Date, y=counts, col='black', type='l', lwd=2)
+         points(x=GAPVolt$Date, y=Voltcounts, col='black', type='l', lwd=2)
          
          axis.POSIXct(1, day, format="%a") #%m/%d") 
         
@@ -94,7 +83,7 @@ plot2 <- function() {
     
   
     
-    barplot(counts, main="Global Active Power", 
+    barplot(Voltcounts, main="Global Active Power", 
             xlab="Global Active Power (kilowatts)", ylab="Frequency", beside=TRUE, col="red")
     
     dev.off()
